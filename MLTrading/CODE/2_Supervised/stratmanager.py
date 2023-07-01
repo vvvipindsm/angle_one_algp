@@ -1,5 +1,4 @@
 import numpy as np
-
 # Create the class
 class StrategyManager():
 
@@ -10,8 +9,11 @@ class StrategyManager():
 
     # Extract data
     def _extract_data(self, symbol, start_date, end_date):
-        from pandas_datareader.data import DataReader
-        data = DataReader(name=symbol, data_source='yahoo', start=start_date, end=end_date)
+        import yfinance
+        data = yfinance.download(tickers = symbol,start=start_date,
+                               interval = "1d", group_by = 'ticker', auto_adjust = True)
+
+
         data = data[["Open", "High", "Low", "Close", "Volume"]]
         data = self._structure_df(data)
         return data
