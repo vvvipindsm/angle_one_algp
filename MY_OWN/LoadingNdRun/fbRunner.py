@@ -143,6 +143,7 @@ for res in result:
             "pre_close" : str(res[Iclose]),            
             "isClassification": res[IisClassification],
             "model": res[Imodel],
+            "prob": "0",
             "stock": res[Istock]})
     
 dataa
