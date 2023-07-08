@@ -41,7 +41,7 @@ from sklearn.metrics import precision_score
 import matplotlib.pyplot as plt
 
 
-# In[17]:
+# In[2]:
 
 
 def load_and_setup_data(sybmol,input_data):
@@ -58,7 +58,7 @@ def fetch_stock_data(tickers):
     
 
 
-# In[47]:
+# In[3]:
 
 
 #symbols = ["CONCOR.NS","ELGIEQUIP.NS"]
@@ -188,7 +188,7 @@ for symbol in symbols:
 print(result)
 
 
-# In[48]:
+# In[4]:
 
 
 dataa = { "data":[]} 
@@ -226,17 +226,22 @@ print(response)
 #final_target
 
 
-# In[64]:
+# In[11]:
 
 
-#for symbol in symbols:
+for symbol in symbols:
   
     # Set Target (for Supervised ML later on)
- #   finaldata[symbol]["TARGET"] = -1
-  #  finaldata[symbol].loc[finaldata[symbol]["Close"].shift(-1) > finaldata[symbol]["Close"], "TARGET"] = 1
-   # finaldata[symbol].dropna(inplace=True)
-    print()
-    #retrained_model = loaded_models[symbol].fit(finaldata[symbol].iloc[:, :-1],finaldata[symbol].iloc[:, :-1])
-    #with open('../TrainedModel/indicator/{}_model_2.pkl'.format(symbol), 'wb') as f:
-     #   pickle.dump(retrained_model, f)
+    finaldata[symbol]["TARGET"] = -1
+    finaldata[symbol].loc[finaldata[symbol]["Close"].shift(-1) > finaldata[symbol]["Close"], "TARGET"] = 1
+    finaldata[symbol].dropna(inplace=True)
+    #print(finaldata)
+    df_tar = finaldata[symbol][["TARGET"]]
+    df_stationar = StandardScaler().fit_transform(finaldata[symbol].iloc[:, :-1])
+   # print(df_tar)
+
+    retrained_model = loaded_models[symbol].fit(df_stationar,df_tar)
+    print(df_stationar)
+    with open('../TrainedModel/indicator/{}_model_2.pkl'.format(symbol), 'wb') as f:
+        pickle.dump(retrained_model, f)
 
