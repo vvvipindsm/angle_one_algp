@@ -48,7 +48,7 @@ def load_and_setup_data(sybmol,input_data):
     df = pd.read_csv("../stock_historical_data/{}.csv".format(sybmol))
     df.set_index("Date", inplace=True)
     new_data = pd.DataFrame(input_data)
-    new_data.set_index("Date", inplace=True)
+    #new_data.set_index("Date", inplace=True)
     concatenated_df = pd.concat([df,new_data])
     return df
 
@@ -62,11 +62,11 @@ def fetch_stock_data(tickers):
 # In[46]:
 
 
-data = load_and_setup_data("RELI",[])
-loaded_model_prophet1= {}
-with open('../TrainedModel/xg/{}_model_phrophet.pkl'.format(symbol), 'rb') as f:
-     loaded_model_prophet1 = pickle.load(f)
-print(data)
+#data = load_and_setup_data("RELI",[])
+#loaded_model_prophet1= {}
+#with open('../TrainedModel/xg/{}_model_phrophet.pkl'.format(symbol), 'rb') as f:
+ #    loaded_model_prophet1 = pickle.load(f)
+#print(data)
 
 
 # In[115]:
@@ -89,7 +89,7 @@ result = []
 final_result = {}
 final_target = {}
 stock_data = fetch_stock_data(symbols)
-print(stock_data)
+#print(stock_data)
 finaldata = {}
 current_date = datetime.now().strftime("%d-%m-%Y")
 
@@ -220,7 +220,7 @@ print(response)
 # In[118]:
 
 
-final_target
+#final_target
 
 
 # In[9]:
