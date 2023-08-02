@@ -3,7 +3,7 @@
 
 # #Libraries and Data
 
-# In[3]:
+# In[1]:
 
 
 #import libraries
@@ -37,11 +37,9 @@ from sklearn.model_selection import RepeatedStratifiedKFold
 # Evaluation
 from sklearn.metrics import precision_score
 
-# Reporting
-import matplotlib.pyplot as plt
 
 
-# In[4]:
+# In[2]:
 
 
 def load_and_setup_data(sybmol):
@@ -58,13 +56,13 @@ def fetch_stock_data(tickers):
     
 
 
-# In[26]:
+# In[8]:
 
 
 #symbols = ["CONCOR.NS","ELGIEQUIP.NS"]
-symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","RELI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS"]
+symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS"]
 
-#symbols = ["^NSEI","RELI"]
+#symbols = ["^NSEI","BEL.NS"]
 
 Icdate = 0
 Iresult = 1
@@ -86,6 +84,7 @@ current_date = datetime.now().strftime("%d-%m-%Y")
 
 for symbol in symbols:
     stock_name = symbol
+    print(stock_name)
     if symbol == "^NSEI":
         stock_name = "NSEI"
  
@@ -94,8 +93,7 @@ for symbol in symbols:
     data['weekday'] =pd.to_datetime(data.index).dayofweek
    # data.to_csv(f"../stock_historical_data/{symbol}.csv")
     data = add_all_ta_features(data, open="Open", high="High", low="Low", close="Close", volume="Volume", fillna=True)
-    print(data)
-
+ 
     # Find NaN Rows
     #na_list = data.columns[data.isna().any().tolist()]
    # data.drop(columns=na_list, inplace=True)
@@ -109,7 +107,7 @@ for symbol in symbols:
     non_stationaries = []
     for col in data.columns:
         if col != "volatility_kchi" and col != "volatility_kcli" and col != "weekday":
-            print(col)
+            #print(col)
             dftest = adfuller(data[col].values)
             p_value = dftest[1]
             t_test = dftest[0] < dftest[4]["1%"]
@@ -135,7 +133,7 @@ for symbol in symbols:
     na_list = df_stationary.columns[df_stationary.isna().any().tolist()]
     
     df_stationary.drop(columns=na_list, inplace=True)
-    print(feature_item)
+    #print(feature_item)
     #print("point one :" ,len(df_stationary.columns))
     df_stationary = df_stationary[feature_item]
     #print("point two :" ,len(df_stationary.columns))
@@ -145,7 +143,7 @@ for symbol in symbols:
     
     df_stationary[np.isinf(df_stationary)] = np.nan  # Replace inf with NaN
     df_stationary = df_stationary.dropna()
-    print("point three",len(df_stationary.columns),symbol)
+    #print("point three",len(df_stationary.columns),symbol)
     has_inf = "no inf data"
     if np.isinf(df_stationary).any().any():
         has_inf = "has inf data"
@@ -183,7 +181,7 @@ for symbol in symbols:
 print(result)
 
 
-# In[27]:
+# In[9]:
 
 
 dataa = { "data":[]} 
@@ -202,7 +200,7 @@ for res in result:
 dataa
 
 
-# In[28]:
+# In[10]:
 
 
 import requests

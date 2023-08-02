@@ -15,7 +15,7 @@ class StrategyManager():
 
 
         data = data[["Open", "High", "Low", "Close", "Volume"]]
-        data.to_csv(f"../../stock_historical_data/{symbol}_15.csv")
+        data.to_csv(f"../../stock_historical_data/{symbol}.csv")
         data = self._structure_df(data)
         return data
 

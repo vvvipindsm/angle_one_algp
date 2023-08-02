@@ -3,7 +3,7 @@
 
 # #Libraries and Data
 
-# In[57]:
+# In[30]:
 
 
 #import libraries
@@ -41,15 +41,17 @@ from sklearn.metrics import precision_score
 import matplotlib.pyplot as plt
 
 
-# In[44]:
+# In[32]:
 
 
-def load_and_setup_data(sybmol,input_data):
+def load_and_setup_data(sybmol):
     df = pd.read_csv("../stock_historical_data/{}.csv".format(sybmol))
     df.set_index("Date", inplace=True)
-    new_data = pd.DataFrame(input_data)
-    #new_data.set_index("Date", inplace=True)
-    concatenated_df = pd.concat([df,new_data])
+    #new_data = pd.DataFrame(input_data)
+   # new_data.set_index("Date", inplace=True)
+  #  concatenated_df = pd.concat([df,new_data])
+   # print(concatenated_df)
+    #print(concatenated_df)
     return df
 
 def fetch_stock_data(tickers):
@@ -59,21 +61,11 @@ def fetch_stock_data(tickers):
     
 
 
-# In[46]:
-
-
-#data = load_and_setup_data("RELI",[])
-#loaded_model_prophet1= {}
-#with open('../TrainedModel/xg/{}_model_phrophet.pkl'.format(symbol), 'rb') as f:
- #    loaded_model_prophet1 = pickle.load(f)
-#print(data)
-
-
-# In[115]:
+# In[33]:
 
 
 #symbols = ["OLECTRA.NS","LT.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI"]
-symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","RELI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS"]
+symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS"]
 #symbols = ["RELI","HDFCBANK.NS"]
 Icdate = 0
 Iresult = 1
@@ -88,8 +80,7 @@ result = []
 
 final_result = {}
 final_target = {}
-stock_data = fetch_stock_data(symbols)
-#print(stock_data)
+#stock_data = fetch_stock_data(symbols)
 finaldata = {}
 current_date = datetime.now().strftime("%d-%m-%Y")
 
@@ -97,17 +88,8 @@ for symbol in symbols:
     stock_name = symbol
     if symbol == "^NSEI":
         stock_name = "NSEI"
-    print(symbol)
-    input_data = {
-                    # "Open" : stock_data.head(1).Open[ticker].values[0],
-                    "Open" : [stock_data.head(1).Open[symbol].values[0]],
-                    "Close" : [stock_data.head(1).Close[symbol].values[0]],
-                    "High" : [stock_data.head(1).High[symbol].values[0]],
-                    "Low" : [stock_data.head(1).Low[symbol].values[0]], 
-                    "Volume" : [stock_data.head(1).Volume[symbol].values[0]],
-                    "Date":[np.datetime_as_string(stock_data.index, unit='D')[0]]
-    }    #print(input_data)
-    data = load_and_setup_data(symbol,input_data)
+ 
+    data = load_and_setup_data(symbol)
     # data.to_csv(f"../stock_historical_data/{symbol}.csv")
     #data = DataProcessing(symbol,data)
     # Specify Target
@@ -131,7 +113,7 @@ for symbol in symbols:
    # data["Date"] =  pd.to_datetime(data['Date'])
     data["y"] = data["Close"]
 
-
+    print(data)
     forecast = loaded_model_prophet.predict(data)
     data = data.reset_index(level=None, drop=False, inplace=False, col_level=0, col_fill='')
     
@@ -155,7 +137,7 @@ for symbol in symbols:
 
     df_stationary = df_stationary.drop(columns=["Date","ds"])
     df_stationary[non_stationaries] = df_stationary[non_stationaries].pct_change()
-    print(df_stationary)
+    #print(df_stationary)
     df_stationary = df_stationary[loaded_model.feature_names_in_]
 
    # score = loaded_model.predict(df_stationary)
@@ -181,11 +163,11 @@ for symbol in symbols:
     #final_result[symbol] = [current_date,train_yhat[0],1,'xg',stock_name_only,stock_data.head(1).Close[symbol].values[0],round(greater,2)]
     result.append([current_date,train_yhat[0],1,'xg',stock_name_only,data.iloc[-1].Close,round(greater,2)])
 
-print(result)
+#print(result)
     
 
 
-# In[116]:
+# In[34]:
 
 
 dataa = { "data":[]} 
@@ -204,7 +186,7 @@ for res in result:
 dataa
 
 
-# In[117]:
+# In[35]:
 
 
 import requests
@@ -217,10 +199,10 @@ print(response.status_code)
 print(response)
 
 
-# In[118]:
+# In[36]:
 
 
-#final_target
+final_target
 
 
 # In[9]:
