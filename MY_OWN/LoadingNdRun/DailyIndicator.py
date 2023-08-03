@@ -222,19 +222,19 @@ print(response)
 # In[ ]:
 
 
-for symbol in symbols:
+#for symbol in symbols:
   
     # Set Target (for Supervised ML later on)
-    finaldata[symbol]["TARGET"] = -1
-    finaldata[symbol].loc[finaldata[symbol]["Close"].shift(-1) > finaldata[symbol]["Close"], "TARGET"] = 1
-    finaldata[symbol].dropna(inplace=True)
+    #finaldata[symbol]["TARGET"] = -1
+   # finaldata[symbol].loc[finaldata[symbol]["Close"].shift(-1) > finaldata[symbol]["Close"], "TARGET"] = 1
+    #finaldata[symbol].dropna(inplace=True)
     #print(finaldata)
-    df_tar = finaldata[symbol][["TARGET"]]
-    df_stationar = StandardScaler().fit_transform(finaldata[symbol].iloc[:, :-1])
+    #df_tar = finaldata[symbol][["TARGET"]]
+    #df_stationar = StandardScaler().fit_transform(finaldata[symbol].iloc[:, :-1])
    # print(df_tar)
 
-    retrained_model = loaded_models[symbol].fit(df_stationar,df_tar)
-    print(df_stationar)
-    with open('../TrainedModel/indicator/{}_model_2.pkl'.format(symbol), 'wb') as f:
-        pickle.dump(retrained_model, f)
+    #retrained_model = loaded_models[symbol].fit(df_stationar,df_tar)
+    #print(df_stationar)
+    #with open('../TrainedModel/indicator/{}_model_2.pkl'.format(symbol), 'wb') as f:
+     #   pickle.dump(retrained_model, f)
 
