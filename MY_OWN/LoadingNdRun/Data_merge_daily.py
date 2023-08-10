@@ -40,7 +40,7 @@ def fetch_stock_data(tickers):
 
 
 #symbols = ["OLECTRA.NS","LT.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI"]
-symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","RELI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS"]
+symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","RELI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS","INR=X","^DJI","^FTSE","BTC-USD","^VIX","RTY=F","USDCNY=X","CL=F","GC=F","^NSEBANK" , "^CNXFMCG","NIFTY_FIN_SERVICE.NS","^CNXIT","NIFTY_PVT_BANK.NS","^CNXMETAL"]
 #symbols = ["OLECTRA.NS","HDFCBANK.NS"]
 Icdate = 0
 Iresult = 1
@@ -84,7 +84,8 @@ for symbol in symbols:
                     "Low" : [stock_data.tail(1).Low[symbol].values[0]], 
                     "Volume" : [stock_data.tail(1).Volume[symbol].values[0]],
                     "Date":[np.datetime_as_string(stock_data.index, unit='D')[0]]
-    }    #print(input_data)
+    }   
+    print(input_data)
     data = load_and_setup_data(symbol,input_data)
     
 

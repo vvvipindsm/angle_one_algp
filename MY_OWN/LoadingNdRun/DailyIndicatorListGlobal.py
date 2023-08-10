@@ -80,7 +80,7 @@ def exponential_moving_average(data, window):
 #symbols = ["OLECTRA.NS","LT.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI"]
 #symbols = ["OLECTRA.NS","CONCOR.NS","ELGIEQUIP.NS","IOC.NS","BEL.NS","TATAELXSI.NS","^NSEI","HDFCBANK.NS","TATAMOTORS.NS","SBIN.NS","TCS.NS","TITAN.NS","SUNPHARMA.BO","TECHM.NS", "ASIANPAINT.NS","TATACONSUM.NS"]
 #symbols = ["OLECTRA.NS","CONCOR.NS",]
-symbols =  ["INR=X","^DJI","^DJI","^FTSE","BTC-USD","^VIX","RTY=F"]
+symbols =  ["INR=X","^DJI","^FTSE","BTC-USD","^VIX","RTY=F","USDCNY=X","CL=F","GC=F"]
 
 Icdate = 0
 Iresult = 1
@@ -89,6 +89,8 @@ Imodel = 3
 Istock = 4
 Iclose = 5
 Iprob = 6
+Ichange = 7
+
   # Add the tickers you want to fetch data for
 loaded_models = {}
 result = []
@@ -133,6 +135,8 @@ for symbol in symbols:
 
     forecast = loaded_model_prophet.predict(data)
     forecast["Close"] =  data['y'].values
+    change = forecast["Close"].iloc[-1] - forecast["Close"].iloc[-2]
+
     forecast["yearly"] = 0
     forecast["weekly"] = 0
     forecast["ma20above50"] = 0
@@ -178,22 +182,23 @@ for symbol in symbols:
 
     forecast.loc[forecast["MA100"] < forecast["Close"],"ema100"] = 1
     forecast.loc[forecast["EMA100"] < forecast["Close"],"ema100"] = 1
-    forecast.loc[forecast["yearly"].shift(-1) > forecast["yearly"],"yearly"] = 1
+    #forecast.loc[forecast["yearly"].shift(-1) > forecast["yearly"],"yearly"] = 1
 
-    forecast.loc[forecast["weekly"].shift(-1) > forecast["weekly"],"weekly"] = 1
+    #forecast.loc[forecast["weekly"].shift(-1) > forecast["weekly"],"weekly"] = 1
+    forecast.loc[forecast["trend"].shift(1) < forecast["trend"],"trend"] = 1
 
     forecast.loc[forecast["MA20"] > forecast["MA50"],'ma20above50'] = 1
     forecast.loc[forecast["MA50"] > forecast["MA100"],'ma50above100'] = 1
     forecast.loc[forecast["MA20"] > forecast["MA100"],'ma20above100'] = 1
 
     forecast.dropna(inplace=True)
-    new_df1 = forecast[["yearly","weekly","ma20above50","ma50above100","ma20above100","ma5","ma20","ma50","ma100","ema5","ema10","ema20","ema50","ema100"]]
+    new_df1 = forecast[["trend","ma20above50","ma50above100","ma20above100","ma5","ma20","ma50","ma100","ema5","ema10","ema20","ema50","ema100"]]
 
     c_df = new_df1.iloc[-1]
     dd =  c_df.to_dict()
   
     stock_name_only = stock_name.replace(".NS","")
-    result.append([current_date,json.dumps(dd),1,'indicator_list_global',stock_name_only,data.iloc[-1].Close,50])
+    result.append([current_date,json.dumps(dd),1,'indicator_list_global',stock_name_only,data.iloc[-1].Close,50,change])
 
 print(result)
     
@@ -213,7 +218,8 @@ for res in result:
             "model": res[Imodel],
             "stock": res[Istock],
             "prob": str(res[Iprob]),
-    })
+            "change": res[Ichange]
+            })
     
 dataa
 
