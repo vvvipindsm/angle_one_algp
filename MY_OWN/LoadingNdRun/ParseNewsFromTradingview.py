@@ -83,7 +83,7 @@ dataa
 import requests
 import json
 
-url = "https://website-development-kerala.com/api_214124524/oi_news.php"
+url = " https://smarttradersclub.in/api_214124524/oi_news.php"
 
 response = requests.post(url, json=dataa)
 print(response.status_code)
