@@ -58,7 +58,7 @@ print(data)
 import requests
 import json
 
-url = "https://website-development-kerala.com/api_214124524/fii_runner.php"
+url = "https://smarttradersclub.in/api_214124524/fii_runner.php"
 
 response = requests.post(url, json=data)
 print(response.status_code)

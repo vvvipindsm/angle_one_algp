@@ -57,7 +57,7 @@ def scrape_website(url):
                 innerDiv = divs[1].find("div")
                 innerDiv1 = innerDiv.find_all("div")
 
-
+                print(innerDiv)
                 temp["oi_call"] = innerDiv1[0].text.strip()
                 temp["oi_call_p"] = innerDiv1[1].text.strip()
             if (len(temp.keys()) > 0):
@@ -93,9 +93,9 @@ dataa["data"] = data
 import requests
 import json
 
-url = "https://website-development-kerala.com/api_214124524/oi_runner.php"
+url = "https://smarttradersclub.in/api_214124524/oi_runner.php"
 
-response = requests.post(url, json=dataa)
-print(response.status_code)
-print(response)
+#response = requests.post(url, json=dataa)
+#print(response.status_code)
+#print(response)
 

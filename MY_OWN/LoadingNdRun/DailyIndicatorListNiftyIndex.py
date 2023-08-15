@@ -232,7 +232,7 @@ dataa
 import requests
 import json
 
-url = "https://website-development-kerala.com/api_214124524/ai_model_daily_runner.php"
+url = " https://smarttradersclub.in/api_214124524/ai_model_daily_runner.php"
 
 response = requests.post(url, json=dataa)
 print(response.status_code)
