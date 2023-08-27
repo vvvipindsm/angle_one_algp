@@ -1,6 +1,6 @@
 
 from smartapi import SmartConnect
-from smartapi.smartWebSocketV2 import SmartWebSocketV2
+from smartapi.smartWebSocketV2 import SmartWebSocketV2s
 import os
 import urllib
 import json
