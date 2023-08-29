@@ -10,11 +10,15 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 driver = webdriver.Chrome()
+driver.implicitly_wait(10)
+
 driver.get("https://groww.in/options/nifty")
 data = driver.execute_script('''
+  let result_g = []
    setTimeout(function() {
           const o_t = document.querySelectorAll("table")[0]
             op_t_tbody = o_t.querySelector('tbody')
@@ -73,13 +77,18 @@ data = driver.execute_script('''
     })
     document.title = JSON.stringify(result)
     window.open("https://smarttradersclub.in/api_214124524/oi_runner.php?data="+JSON.stringify(result),'_blank');
+    result_g = result
+    document.getElementById("globalSearch23").value = JSON.stringify(result)
 
     return result
   }, 2000);
-  return "result"
+  return result_g
 ''')
 
-#driver.quit()
-print("Title:", data)
+d = driver.find_element(By.ID, 'globalSearch23')
+print(dir(d))
+print("text",d.str)
+driver.quit()
+print("Title:", d)
 
 
